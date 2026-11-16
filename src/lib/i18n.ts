@@ -15,6 +15,21 @@ export interface Messages {
   heartSection: string;
   liveModel: string;
   heartAlt: string;
+  viewNote: string;
+  chambers: {
+    rightAtrium: string;
+    rightVentricle: string;
+    leftAtrium: string;
+    leftVentricle: string;
+  };
+  /** In the order of the numbered markers on the illustration. */
+  vessels: string[];
+  bloodPoor: string;
+  bloodRich: string;
+  pulmonaryName: string;
+  pulmonaryPath: string;
+  systemicName: string;
+  systemicPath: string;
   rhythmTrace: string;
   grid: string;
   ecgAlt: (bpm: number) => string;
@@ -61,7 +76,30 @@ export const MESSAGES: Record<Locale, Messages> = {
     heartSection: "Heart visualization",
     liveModel: "Live model",
     heartAlt:
-      "Animated illustration of a beating human heart. The upper chambers squeeze first, then the lower chambers contract and relax.",
+      "Animated cutaway diagram of a beating human heart seen from the front, showing the four chambers, the four valves and the great vessels. The atria squeeze first, then the ventricles contract and relax. Moving dots show blood passing through: blue for oxygen-poor blood going to the lungs, red for oxygen-rich blood going to the body.",
+    viewNote:
+      "Front view, cut open. The heart's right side is on your left.",
+    chambers: {
+      rightAtrium: "Right atrium",
+      rightVentricle: "Right ventricle",
+      leftAtrium: "Left atrium",
+      leftVentricle: "Left ventricle",
+    },
+    vessels: [
+      "Superior vena cava",
+      "Inferior vena cava",
+      "Pulmonary artery",
+      "Pulmonary veins",
+      "Aorta",
+    ],
+    bloodPoor: "Oxygen-poor blood",
+    bloodRich: "Oxygen-rich blood",
+    pulmonaryName: "Pulmonary circulation",
+    pulmonaryPath:
+      "right ventricle → pulmonary artery → lungs → pulmonary veins → left atrium",
+    systemicName: "Systemic circulation",
+    systemicPath:
+      "left ventricle → aorta → body → venae cavae → right atrium",
     rhythmTrace: "Rhythm trace",
     grid: "grid: 200 ms / 1 s",
     ecgAlt: (bpm) =>
@@ -132,7 +170,7 @@ export const MESSAGES: Record<Locale, Messages> = {
       },
       {
         title: "Systole",
-        body: "Systole is the squeeze. The muscular lower chambers (the ventricles) contract and push blood out to the lungs and the rest of the body. This is the moment the heart above tightens and twists.",
+        body: "Systole is the squeeze. The muscular lower chambers (the ventricles) contract and push blood out to the lungs and the rest of the body. In the diagram above, their walls thicken and the space inside them shrinks.",
       },
       {
         title: "Diastole",
@@ -157,7 +195,30 @@ export const MESSAGES: Record<Locale, Messages> = {
     heartSection: "Απεικόνιση καρδιάς",
     liveModel: "Ζωντανό μοντέλο",
     heartAlt:
-      "Κινούμενη απεικόνιση ανθρώπινης καρδιάς που χτυπά. Πρώτα συσπώνται οι πάνω κοιλότητες, έπειτα οι κάτω κοιλότητες συσπώνται και χαλαρώνουν.",
+      "Κινούμενο διάγραμμα σε τομή μιας ανθρώπινης καρδιάς που χτυπά, από μπροστά, με τις τέσσερις κοιλότητες, τις τέσσερις βαλβίδες και τα μεγάλα αγγεία. Πρώτα συσπώνται οι κόλποι, έπειτα οι κοιλίες συσπώνται και χαλαρώνουν. Κινούμενες κουκκίδες δείχνουν το αίμα: μπλε για το φτωχό σε οξυγόνο που πηγαίνει στους πνεύμονες, κόκκινο για το πλούσιο σε οξυγόνο που πηγαίνει στο σώμα.",
+    viewNote:
+      "Πρόσθια όψη σε τομή. Η δεξιά πλευρά της καρδιάς βρίσκεται στα αριστερά σου.",
+    chambers: {
+      rightAtrium: "Δεξιός κόλπος",
+      rightVentricle: "Δεξιά κοιλία",
+      leftAtrium: "Αριστερός κόλπος",
+      leftVentricle: "Αριστερή κοιλία",
+    },
+    vessels: [
+      "Άνω κοίλη φλέβα",
+      "Κάτω κοίλη φλέβα",
+      "Πνευμονική αρτηρία",
+      "Πνευμονικές φλέβες",
+      "Αορτή",
+    ],
+    bloodPoor: "Αίμα φτωχό σε οξυγόνο",
+    bloodRich: "Αίμα πλούσιο σε οξυγόνο",
+    pulmonaryName: "Πνευμονική κυκλοφορία",
+    pulmonaryPath:
+      "δεξιά κοιλία → πνευμονική αρτηρία → πνεύμονες → πνευμονικές φλέβες → αριστερός κόλπος",
+    systemicName: "Συστηματική κυκλοφορία",
+    systemicPath:
+      "αριστερή κοιλία → αορτή → σώμα → κοίλες φλέβες → δεξιός κόλπος",
     rhythmTrace: "Καταγραφή ρυθμού",
     grid: "πλέγμα: 200 ms / 1 s",
     ecgAlt: (bpm) =>
@@ -229,7 +290,7 @@ export const MESSAGES: Record<Locale, Messages> = {
       },
       {
         title: "Συστολή",
-        body: "Η συστολή είναι το σφίξιμο. Οι μυώδεις κάτω κοιλότητες (οι κοιλίες) συσπώνται και σπρώχνουν το αίμα προς τους πνεύμονες και το υπόλοιπο σώμα. Είναι η στιγμή που η καρδιά παραπάνω σφίγγει και στρίβει.",
+        body: "Η συστολή είναι το σφίξιμο. Οι μυώδεις κάτω κοιλότητες (οι κοιλίες) συσπώνται και σπρώχνουν το αίμα προς τους πνεύμονες και το υπόλοιπο σώμα. Στο διάγραμμα παραπάνω, τα τοιχώματά τους παχαίνουν και ο χώρος μέσα τους μικραίνει.",
       },
       {
         title: "Διαστολή",
