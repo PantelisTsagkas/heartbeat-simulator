@@ -27,12 +27,7 @@ export const PRESETS: readonly Preset[] = [
 ];
 
 export type RateZone =
-  | "verySlow"
-  | "resting"
-  | "everyday"
-  | "light"
-  | "hard"
-  | "veryFast";
+  "verySlow" | "resting" | "everyday" | "light" | "hard" | "veryFast";
 
 /** Which descriptive band a rate falls in. The wording lives in i18n. */
 export function rateZone(bpm: number): RateZone {
@@ -124,9 +119,7 @@ export function atrialContraction(tMs: number, t: CardiacTiming): number {
 export function ventricularContraction(tMs: number, t: CardiacTiming): number {
   if (tMs <= t.ventStartMs || tMs >= t.ventEndMs) return 0;
   if (tMs < t.ventPeakMs) {
-    return easeOutCubic(
-      (tMs - t.ventStartMs) / (t.ventPeakMs - t.ventStartMs),
-    );
+    return easeOutCubic((tMs - t.ventStartMs) / (t.ventPeakMs - t.ventStartMs));
   }
   if (tMs < t.ventHoldEndMs) {
     const u = (tMs - t.ventPeakMs) / (t.ventHoldEndMs - t.ventPeakMs);
@@ -162,4 +155,18 @@ export function ecgValue(tMs: number, t: CardiacTiming): number {
     0.2 * gauss(tMs, rMs + 13 * k, 6 * k) +
     0.3 * gauss(tMs, rMs + qtMs * 0.62, qtMs * 0.11)
   );
+}
+
+/**
+ * How strongly blood is moving from the atria into the ventricles, 0..1.
+ * A quick rush right after the ventricles relax, a slow trickle while they
+ * rest, then a final top-up when the atria squeeze.
+ */
+export function fillingFlow(tMs: number, t: CardiacTiming): number {
+  const kick = atrialContraction(tMs, t);
+  if (tMs >= t.ventStartMs && tMs < t.ventEndMs) return 0;
+  const sinceRelaxMs =
+    tMs >= t.ventEndMs ? tMs - t.ventEndMs : tMs + t.periodMs - t.ventEndMs;
+  const passive = 0.3 + 0.5 * Math.exp(-sinceRelaxMs / 140);
+  return Math.min(1, Math.max(passive * (1 - kick), kick));
 }
