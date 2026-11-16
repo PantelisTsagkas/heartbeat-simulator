@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type { BeatClock, BeatFrame } from "@/lib/beatClock";
 import {
   FLOW_ROUTES,
+  isHidden,
   pointOnRoute,
   type FlowKind,
   type Oxygen,
@@ -20,7 +21,7 @@ const VIEW_WIDTH = 400;
 
 const COLORS: Record<Oxygen, string> = {
   poor: "96, 165, 255",
-  rich: "255, 196, 170",
+  rich: "255, 176, 150",
 };
 
 interface Particle {
@@ -122,18 +123,19 @@ export function BloodFlow({ clock }: { clock: BeatClock }) {
         if (alpha <= 0.01) continue;
 
         const lateral = particle.lane * route.spread;
-        const streak = Math.min(0.07, 0.006 + v * particle.pace * 0.035);
+        const streak = Math.min(0.045, 0.006 + v * particle.pace * 0.026);
         pointOnRoute(route, particle.s, lateral, head);
+        if (isHidden(route, head.x, head.y)) continue;
         pointOnRoute(route, particle.s - streak, lateral, tail);
 
         const color = COLORS[route.oxygen];
         ctx.beginPath();
         ctx.moveTo(tail.x * scale, tail.y * scale);
         ctx.lineTo(head.x * scale, head.y * scale);
-        ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.22).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.16).toFixed(3)})`;
         ctx.lineWidth = 7.5 * scale;
         ctx.stroke();
-        ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.95).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.85).toFixed(3)})`;
         ctx.lineWidth = 2.6 * scale;
         ctx.stroke();
       }

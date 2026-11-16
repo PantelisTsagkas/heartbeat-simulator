@@ -97,18 +97,58 @@ export function HeartbeatSimulator() {
             <PhaseIndicator clock={clock} t={t} />
           </div>
           <div className="flex flex-1 items-center px-6 py-2 sm:px-10">
-            <HeartVisual clock={clock} label={t.heartAlt} />
+            <HeartVisual
+              clock={clock}
+              label={t.heartAlt}
+              labels={t.chambers}
+            />
           </div>
-          <ul className="flex flex-wrap gap-x-5 gap-y-1 px-4 pb-3 text-xs text-muted sm:px-5">
-            <li className="flex items-center gap-2">
-              <span aria-hidden className="h-1.5 w-3 bg-[#60a5ff] shadow-[0_0_8px_1px_rgba(96,165,255,0.7)]" />
-              {t.bloodPoor}
-            </li>
-            <li className="flex items-center gap-2">
-              <span aria-hidden className="h-1.5 w-3 bg-[#ffc4aa] shadow-[0_0_8px_1px_rgba(255,196,170,0.7)]" />
-              {t.bloodRich}
-            </li>
-          </ul>
+          <div className="px-4 pb-4 text-xs leading-relaxed text-muted sm:px-5">
+            <p className="mb-3 text-center">{t.viewNote}</p>
+            <ol className="mb-3 flex flex-wrap justify-center gap-x-4 gap-y-1.5">
+              {t.vessels.map((vessel, index) => (
+                <li key={vessel} className="flex items-center gap-1.5">
+                  <span
+                    aria-hidden
+                    className="flex h-4 w-4 items-center justify-center rounded-full border border-bone/70 font-mono text-[10px] leading-none text-bone"
+                  >
+                    {index + 1}
+                  </span>
+                  {vessel}
+                </li>
+              ))}
+            </ol>
+            <ul className="mb-3 flex flex-wrap justify-center gap-x-5 gap-y-1 border-t border-line pt-3 text-bone">
+              <li className="flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="h-1.5 w-3 bg-[#60a5ff] shadow-[0_0_8px_1px_rgba(96,165,255,0.7)]"
+                />
+                {t.bloodPoor}
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  aria-hidden
+                  className="h-1.5 w-3 bg-[#ffc4aa] shadow-[0_0_8px_1px_rgba(255,196,170,0.7)]"
+                />
+                {t.bloodRich}
+              </li>
+            </ul>
+            <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-ember">
+                  {t.pulmonaryName}
+                </dt>
+                <dd>{t.pulmonaryPath}</dd>
+              </div>
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-ember">
+                  {t.systemicName}
+                </dt>
+                <dd>{t.systemicPath}</dd>
+              </div>
+            </dl>
+          </div>
           <div className="border-t border-line">
             <div className="flex items-baseline justify-between px-4 pt-3 sm:px-5">
               <span className="eyebrow">{t.rhythmTrace}</span>
