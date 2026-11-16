@@ -20,7 +20,7 @@ const VIEW_WIDTH = 400;
 
 const COLORS: Record<Oxygen, string> = {
   poor: "96, 165, 255",
-  rich: "255, 132, 110",
+  rich: "255, 196, 170",
 };
 
 interface Particle {
@@ -131,10 +131,10 @@ export function BloodFlow({ clock }: { clock: BeatClock }) {
         ctx.moveTo(tail.x * scale, tail.y * scale);
         ctx.lineTo(head.x * scale, head.y * scale);
         ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.22).toFixed(3)})`;
-        ctx.lineWidth = 6.5 * scale;
+        ctx.lineWidth = 7.5 * scale;
         ctx.stroke();
         ctx.strokeStyle = `rgba(${color}, ${(alpha * 0.95).toFixed(3)})`;
-        ctx.lineWidth = 2.1 * scale;
+        ctx.lineWidth = 2.6 * scale;
         ctx.stroke();
       }
       ctx.globalCompositeOperation = "source-over";

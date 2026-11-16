@@ -484,8 +484,8 @@ export function HeartVisual({
                     key={d}
                     d={d}
                     stroke="#2a0308"
-                    strokeOpacity="0.2"
-                    strokeWidth="2.2"
+                    strokeOpacity="0.09"
+                    strokeWidth="1.6"
                   />
                 ))}
                 {FIBRES.map((d) => (
@@ -493,8 +493,8 @@ export function HeartVisual({
                     key={d}
                     d={d}
                     stroke="#ffb09a"
-                    strokeOpacity="0.09"
-                    strokeWidth="1"
+                    strokeOpacity="0.045"
+                    strokeWidth="0.8"
                     transform="translate(0 -2)"
                   />
                 ))}

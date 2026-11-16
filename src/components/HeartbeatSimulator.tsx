@@ -99,6 +99,16 @@ export function HeartbeatSimulator() {
           <div className="flex flex-1 items-center px-6 py-2 sm:px-10">
             <HeartVisual clock={clock} label={t.heartAlt} />
           </div>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1 px-4 pb-3 text-xs text-muted sm:px-5">
+            <li className="flex items-center gap-2">
+              <span aria-hidden className="h-1.5 w-3 bg-[#60a5ff] shadow-[0_0_8px_1px_rgba(96,165,255,0.7)]" />
+              {t.bloodPoor}
+            </li>
+            <li className="flex items-center gap-2">
+              <span aria-hidden className="h-1.5 w-3 bg-[#ffc4aa] shadow-[0_0_8px_1px_rgba(255,196,170,0.7)]" />
+              {t.bloodRich}
+            </li>
+          </ul>
           <div className="border-t border-line">
             <div className="flex items-baseline justify-between px-4 pt-3 sm:px-5">
               <span className="eyebrow">{t.rhythmTrace}</span>

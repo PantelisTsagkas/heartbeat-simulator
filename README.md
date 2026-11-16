@@ -9,6 +9,7 @@ This is an educational illustration. It is not a medical device and does not mea
 ## Features
 
 - Layered SVG heart that contracts in sequence: the atria squeeze first, then the ventricle walls move inward, the apex lifts and the muscle twists slightly, then everything relaxes and refills. It is not a uniform scale.
+- Blood flow shown as moving particles: blue for oxygen-poor blood (body, right side, lungs) and warm for oxygen-rich blood (lungs, left side, aorta). Arteries surge on each contraction, the atria empty into the ventricles while they relax, and the veins keep a steadier return.
 - Heart rate slider from 30 to 200 BPM (default 72) and five presets: 60, 72, 100, 140, 180.
 - ECG-style trace on a fixed time axis, so a higher BPM pulls the peaks closer together. Beats already drawn stay where they were.
 - Play / pause, and an optional "lub-dub" sound generated with the Web Audio API. No audio files. Audio starts only after you turn it on, and the app works without it.
@@ -55,6 +56,7 @@ src/
   components/
     HeartbeatSimulator  page shell, owns BPM and play state
     HeartVisual         SVG heart, animated from the clock
+    BloodFlow           canvas overlay of blood particles
     EcgCanvas           sweep-style trace on a canvas
     PhaseIndicator      systole / diastole lights
     Controls            slider, presets, play / pause, sound, volume
@@ -65,6 +67,7 @@ src/
     useLocale           current language, persisted in localStorage
   lib/
     beatClock           the requestAnimationFrame loop
+    bloodFlow           particle routes through the heart
     cardiac             timing model, ECG shape, presets, rate bands
     i18n                English and Greek text
 ```

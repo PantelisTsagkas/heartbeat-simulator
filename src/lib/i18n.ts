@@ -15,6 +15,8 @@ export interface Messages {
   heartSection: string;
   liveModel: string;
   heartAlt: string;
+  bloodPoor: string;
+  bloodRich: string;
   rhythmTrace: string;
   grid: string;
   ecgAlt: (bpm: number) => string;
@@ -61,7 +63,9 @@ export const MESSAGES: Record<Locale, Messages> = {
     heartSection: "Heart visualization",
     liveModel: "Live model",
     heartAlt:
-      "Animated illustration of a beating human heart. The upper chambers squeeze first, then the lower chambers contract and relax.",
+      "Animated illustration of a beating human heart. The upper chambers squeeze first, then the lower chambers contract and relax. Moving dots show blood passing through: blue for oxygen-poor, red for oxygen-rich.",
+    bloodPoor: "oxygen-poor blood, heading to the lungs",
+    bloodRich: "oxygen-rich blood, heading to the body",
     rhythmTrace: "Rhythm trace",
     grid: "grid: 200 ms / 1 s",
     ecgAlt: (bpm) =>
@@ -157,7 +161,9 @@ export const MESSAGES: Record<Locale, Messages> = {
     heartSection: "Απεικόνιση καρδιάς",
     liveModel: "Ζωντανό μοντέλο",
     heartAlt:
-      "Κινούμενη απεικόνιση ανθρώπινης καρδιάς που χτυπά. Πρώτα συσπώνται οι πάνω κοιλότητες, έπειτα οι κάτω κοιλότητες συσπώνται και χαλαρώνουν.",
+      "Κινούμενη απεικόνιση ανθρώπινης καρδιάς που χτυπά. Πρώτα συσπώνται οι πάνω κοιλότητες, έπειτα οι κάτω κοιλότητες συσπώνται και χαλαρώνουν. Κινούμενες κουκκίδες δείχνουν το αίμα που περνά: μπλε για το φτωχό σε οξυγόνο, κόκκινο για το πλούσιο.",
+    bloodPoor: "αίμα φτωχό σε οξυγόνο, προς τους πνεύμονες",
+    bloodRich: "αίμα πλούσιο σε οξυγόνο, προς το σώμα",
     rhythmTrace: "Καταγραφή ρυθμού",
     grid: "πλέγμα: 200 ms / 1 s",
     ecgAlt: (bpm) =>
