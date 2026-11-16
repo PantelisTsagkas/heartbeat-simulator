@@ -11,10 +11,12 @@ interface Thump {
   peak: number;
 }
 
-const LUB: Thump = { fromHz: 96, toHz: 46, durS: 0.16, peak: 1 };
-const DUB: Thump = { fromHz: 124, toHz: 62, durS: 0.11, peak: 0.6 };
+// Phone speakers reproduce almost nothing below roughly 150 Hz, so the thud
+// starts above that and carries an overtone layer an octave up.
+const LUB: Thump = { fromHz: 160, toHz: 62, durS: 0.18, peak: 0.62 };
+const DUB: Thump = { fromHz: 205, toHz: 84, durS: 0.12, peak: 0.42 };
 
-/** A short, low, pitch-dropping thud. Two layers so small speakers can play it. */
+/** A short, pitch-dropping thud: a sine body plus a brighter overtone layer. */
 function playThump(ctx: AudioContext, out: AudioNode, thump: Thump) {
   const t0 = ctx.currentTime + 0.005;
   const end = t0 + thump.durS;
@@ -37,9 +39,9 @@ function playThump(ctx: AudioContext, out: AudioNode, thump: Thump) {
   knock.frequency.exponentialRampToValueAtTime(thump.toHz * 2, end);
   const lowpass = ctx.createBiquadFilter();
   lowpass.type = "lowpass";
-  lowpass.frequency.value = 220;
+  lowpass.frequency.value = 900;
   const knockGain = ctx.createGain();
-  knockGain.gain.value = 0.35;
+  knockGain.gain.value = 0.55;
   knock.connect(lowpass).connect(knockGain).connect(env);
 
   body.start(t0);
@@ -90,6 +92,13 @@ export function useHeartSound(clock: BeatClock): HeartSound {
       return;
     }
     try {
+      // iOS treats Web Audio as "ambient" sound and mutes it when the ring /
+      // silent switch is on. Asking for a playback session lets it through.
+      const session = (
+        navigator as Navigator & { audioSession?: { type: string } }
+      ).audioSession;
+      if (session) session.type = "playback";
+
       if (!ctxRef.current) {
         const ctx = new AudioContext();
         const master = ctx.createGain();
@@ -127,6 +136,26 @@ export function useHeartSound(clock: BeatClock): HeartSound {
       }
     });
   }, [clock, enabled]);
+
+  // iOS suspends or interrupts the context when the page is backgrounded or
+  // a call comes in. Pick it back up when the page is visible again.
+  useEffect(() => {
+    if (!enabled) return;
+    const resume = () => {
+      const ctx = ctxRef.current;
+      if (ctx && document.visibilityState === "visible" && ctx.state !== "running") {
+        void ctx.resume().catch(() => undefined);
+      }
+    };
+    document.addEventListener("visibilitychange", resume);
+    window.addEventListener("pageshow", resume);
+    window.addEventListener("pointerdown", resume);
+    return () => {
+      document.removeEventListener("visibilitychange", resume);
+      window.removeEventListener("pageshow", resume);
+      window.removeEventListener("pointerdown", resume);
+    };
+  }, [enabled]);
 
   useEffect(() => {
     return () => {
