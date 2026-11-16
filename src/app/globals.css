@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --color-ink: #070405;
+  --color-line: #2a1318;
+  --color-bone: #f4eae7;
+  --color-muted: #a08c8b;
+  --color-crimson: #dc143c;
+  --color-ember: #ff4d5e;
+}
+
+html {
+  background: var(--color-ink);
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 30% 20%, rgba(150, 12, 30, 0.14), transparent 70%),
+    var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+}
+
+.panel {
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Soft light behind the heart. Opacity and scale are driven per frame. */
+.heart-aura {
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 60, 40, 0.34),
+    rgba(200, 16, 40, 0.14) 48%,
+    transparent 72%
+  );
+  will-change: transform, opacity;
+}
+
+/* Range inputs */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 32px;
+  background: transparent;
+  cursor: pointer;
+}
+.range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--color-crimson) var(--fill, 0%),
+    var(--color-line) var(--fill, 0%)
+  );
+}
+.range::-moz-range-track {
+  height: 4px;
+  background: var(--color-line);
+}
+.range::-moz-range-progress {
+  height: 4px;
+  background: var(--color-crimson);
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 24px;
+  margin-top: -10px;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-bone);
+  box-shadow: 0 0 14px rgba(255, 60, 80, 0.75);
+}
+.range::-moz-range-thumb {
+  width: 14px;
+  height: 24px;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-bone);
+  box-shadow: 0 0 14px rgba(255, 60, 80, 0.75);
+}
