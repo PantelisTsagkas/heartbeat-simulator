@@ -211,7 +211,7 @@ export function HeartVisual({
     <div
       ref={rootRef}
       data-beats="0"
-      className="relative mx-auto aspect-[10/11] w-[min(100%,max(56vh,300px),520px)]"
+      className="relative mx-auto aspect-[10/11] w-[min(100%,max(62vh,340px),520px)]"
     >
       <div
         ref={auraRef}
