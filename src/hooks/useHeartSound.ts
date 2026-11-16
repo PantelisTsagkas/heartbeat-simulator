@@ -11,12 +11,10 @@ interface Thump {
   peak: number;
 }
 
-// Phone speakers reproduce almost nothing below roughly 150 Hz, so the thud
-// starts above that and carries an overtone layer an octave up.
-const LUB: Thump = { fromHz: 160, toHz: 62, durS: 0.18, peak: 0.62 };
-const DUB: Thump = { fromHz: 205, toHz: 84, durS: 0.12, peak: 0.42 };
+const LUB: Thump = { fromHz: 96, toHz: 46, durS: 0.16, peak: 1 };
+const DUB: Thump = { fromHz: 124, toHz: 62, durS: 0.11, peak: 0.6 };
 
-/** A short, pitch-dropping thud: a sine body plus a brighter overtone layer. */
+/** A short, low, pitch-dropping thud. Two layers so small speakers can play it. */
 function playThump(ctx: AudioContext, out: AudioNode, thump: Thump) {
   const t0 = ctx.currentTime + 0.005;
   const end = t0 + thump.durS;
@@ -39,9 +37,9 @@ function playThump(ctx: AudioContext, out: AudioNode, thump: Thump) {
   knock.frequency.exponentialRampToValueAtTime(thump.toHz * 2, end);
   const lowpass = ctx.createBiquadFilter();
   lowpass.type = "lowpass";
-  lowpass.frequency.value = 900;
+  lowpass.frequency.value = 220;
   const knockGain = ctx.createGain();
-  knockGain.gain.value = 0.55;
+  knockGain.gain.value = 0.35;
   knock.connect(lowpass).connect(knockGain).connect(env);
 
   body.start(t0);
